@@ -1,0 +1,18 @@
+{
+  "date": "2026-11-08",
+  "model_name_user_reported": "DeepSeek-V4.1-Flash-1017",
+  "platform": "CodeArts Agent",
+  "condition": "提供题目、参考答案、得分点与建议配分，直接给出总分和短理由",
+  "reference_definition": "整理包当前05_全部答案_有得分.jsonl中的人工分数，包含已确认的教师修订，不回退至下载时的旧标签",
+  "scored_samples_explicitly_in_prompt_not_verified": true,
+  "rule_contains_teacher_9_point_anchors": true,
+  "runs": 1,
+  "temperature": null,
+  "actual_model_call_count": null,
+  "displayed_completion_seconds": 297,
+  "estimated_credits_from_ui": 10.67,
+  "answer_input_matches_reference_verified": true,
+  "reason_over_100_characters": 0,
+  "reference_sha256": "1014e0fa77dbd4eaf809d1e01e7a7d4dc0ebdcf70c267ac0f7706a564c9494c2",
+  "input_sha256": "95a98494dfd63e9fcffacb48f36fcdf1e1456340bf3354610453eedd9304c0ba"
+}
