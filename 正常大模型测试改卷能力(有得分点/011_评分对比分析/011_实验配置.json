@@ -3,7 +3,7 @@
   "model_name_user_reported": "DeepSeek-V4.1-Flash-1017",
   "platform": "CodeArts Agent",
   "condition": "提供题目、参考答案、得分点与建议配分，直接给出总分和短理由",
-  "reference_definition": "整理包当前05_全部答案_有得分.jsonl中的人工分数，包含已确认的教师修订，不回退至下载时的旧标签",
+  "reference_definition": "题目答案相关数据当前有分版，分别标明教师修订、用户确认修订和未重审原标签",
   "scored_samples_explicitly_in_prompt_not_verified": true,
   "rule_contains_teacher_9_point_anchors": true,
   "runs": 1,
@@ -13,6 +13,16 @@
   "estimated_credits_from_ui": 10.67,
   "answer_input_matches_reference_verified": true,
   "reason_over_100_characters": 0,
-  "reference_sha256": "1014e0fa77dbd4eaf809d1e01e7a7d4dc0ebdcf70c267ac0f7706a564c9494c2",
-  "input_sha256": "95a98494dfd63e9fcffacb48f36fcdf1e1456340bf3354610453eedd9304c0ba"
+  "reference_sha256": "717b7426198f4aecc16875f925dde37ed92edb7d38e1ee4f67f2ae78fb5c0e65",
+  "input_sha256": "95a98494dfd63e9fcffacb48f36fcdf1e1456340bf3354610453eedd9304c0ba",
+  "analysis_date": "2026-11-10",
+  "label_version": "2026-11-10-user-approved-v1",
+  "metrics_recomputed_without_model_rerun": true,
+  "teacher_reviewed_count": 7,
+  "user_approved_revision_count": 5,
+  "not_rereviewed_count": 95,
+  "current_rule_file_sha256": "3278756f5ca15595355fdd98a5c15b0bb6ebc32bfeb711a1ff7844c0b1b9209d",
+  "actual_model_input_record": "原模型运行时题目与答案保存在评测输入快照；当前规则文件可有后续更新，未据此重新调用模型",
+  "input_question_snapshot_sha256": "c8078dd9b449297cf5ac5b4591e70efd992c58532d8240720c9882a2542876fb",
+  "truth_snapshot_sha256": "717b7426198f4aecc16875f925dde37ed92edb7d38e1ee4f67f2ae78fb5c0e65"
 }
