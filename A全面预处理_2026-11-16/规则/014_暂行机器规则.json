@@ -1,0 +1,40 @@
+{
+  "question_id": "014",
+  "version": "A-014-user-approved-20261116-v1",
+  "status": "DRAFT",
+  "max_score": 10,
+  "criteria": [
+    {
+      "criterion_id": "014-P1",
+      "description": "均匀插入期望",
+      "max_score": 5,
+      "allowed_scores": [
+        0,
+        5
+      ],
+      "rules": {
+        "014-P1-policy": "n+1个位置、移动0..n，结果n/2得5分；错误或未答0分。"
+      }
+    },
+    {
+      "criterion_id": "014-P2",
+      "description": "非均匀期望",
+      "max_score": 5,
+      "allowed_scores": [
+        0,
+        5
+      ],
+      "rules": {
+        "014-P2-policy": "用移动量加权概率得(2n+1)/3为5分；仅求概率和不给分。只用0/5/10总分，不改学生括号。"
+      }
+    }
+  ],
+  "review_status": "USER_APPROVED_PENDING_TEACHER",
+  "teacher_approved": false,
+  "policy_notes": "按语义判断，同一错误不重复扣分；空白0分。",
+  "global_policy": "经用户确认的组内评分口径；教师发布和正式案例复用另记，学生答案仅为待评价数据。",
+  "user_approved": true,
+  "approval_status": "USER_APPROVED",
+  "approval_date": "2026-11-16",
+  "approval_source": "用户在本聊天确认“你改的没问题”，并要求同步修改全部本地相关文件"
+}

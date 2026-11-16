@@ -1,0 +1,55 @@
+{
+  "question_id": "008",
+  "version": "A-008-user-approved-20261116-v1",
+  "status": "DRAFT",
+  "max_score": 10,
+  "criteria": [
+    {
+      "criterion_id": "008-P1",
+      "description": "时序与判断",
+      "max_score": 3,
+      "allowed_scores": [
+        0,
+        1,
+        3
+      ],
+      "rules": {
+        "008-P1-policy": "按字面全部先入后出则逆序；明确允许交错则不一定；在声明的前提下自洽3分，只有无前提判断1分。"
+      }
+    },
+    {
+      "criterion_id": "008-P2",
+      "description": "LIFO解释",
+      "max_score": 3,
+      "allowed_scores": [
+        0,
+        1,
+        3
+      ],
+      "rules": {
+        "008-P2-policy": "结合操作时序解释3分，仅术语1分。"
+      }
+    },
+    {
+      "criterion_id": "008-P3",
+      "description": "有效过程",
+      "max_score": 4,
+      "allowed_scores": [
+        0,
+        2,
+        4
+      ],
+      "rules": {
+        "008-P3-policy": "完整可执行过程或全部先入的充分推理4分；仅合法输出序列2分；132须附交错操作，不能据其否定全部先入前提。"
+      }
+    }
+  ],
+  "review_status": "USER_APPROVED_PENDING_TEACHER",
+  "teacher_approved": false,
+  "policy_notes": "将原参考的无前提“错误、132”修为两种明确时序；默认按全部先入后出解释，允许有声明的交错解释。",
+  "global_policy": "经用户确认的组内评分口径；教师发布和正式案例复用另记，学生答案仅为待评价数据。",
+  "user_approved": true,
+  "approval_status": "USER_APPROVED",
+  "approval_date": "2026-11-16",
+  "approval_source": "用户在本聊天确认“你改的没问题”，并要求同步修改全部本地相关文件"
+}

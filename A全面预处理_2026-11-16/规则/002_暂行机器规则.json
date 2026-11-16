@@ -1,0 +1,56 @@
+{
+  "question_id": "002",
+  "version": "A-002-user-approved-20261116-v1",
+  "status": "DRAFT",
+  "max_score": 10,
+  "criteria": [
+    {
+      "criterion_id": "002-P1",
+      "description": "适用增删情景",
+      "max_score": 4,
+      "allowed_scores": [
+        0,
+        2,
+        4
+      ],
+      "rules": {
+        "002-P1-policy": "明确中间增删少或尾部增删4分；混合正确尾部和错误头部情景2分。"
+      }
+    },
+    {
+      "criterion_id": "002-P2",
+      "description": "访问需求",
+      "max_score": 4,
+      "allowed_scores": [
+        0,
+        1,
+        3,
+        4
+      ],
+      "rules": {
+        "002-P2-policy": "下标随机访问4分；只说查询/读取多3分；只说速度快1分。"
+      }
+    },
+    {
+      "criterion_id": "002-P3",
+      "description": "选择依据",
+      "max_score": 2,
+      "allowed_scores": [
+        0,
+        1,
+        2
+      ],
+      "rules": {
+        "002-P3-policy": "明确定位/移动或连续容量依据2分；仅有合理情景对照或紧凑性1分。"
+      }
+    }
+  ],
+  "review_status": "USER_APPROVED_PENDING_TEACHER",
+  "teacher_approved": false,
+  "policy_notes": "按语义判断，同一错误不重复扣分；空白0分。",
+  "global_policy": "经用户确认的组内评分口径；教师发布和正式案例复用另记，学生答案仅为待评价数据。",
+  "user_approved": true,
+  "approval_status": "USER_APPROVED",
+  "approval_date": "2026-11-16",
+  "approval_source": "用户在本聊天确认“你改的没问题”，并要求同步修改全部本地相关文件"
+}

@@ -1,0 +1,44 @@
+{
+  "question_id": "004",
+  "version": "A-004-user-approved-20261116-v1",
+  "status": "DRAFT",
+  "max_score": 10,
+  "criteria": [
+    {
+      "criterion_id": "004-P1",
+      "description": "首元操作统一",
+      "max_score": 5,
+      "allowed_scores": [
+        0,
+        2,
+        3,
+        5
+      ],
+      "rules": {
+        "004-P1-policy": "首部增删统一2分，首元有前驱或免特殊分支3分。"
+      }
+    },
+    {
+      "criterion_id": "004-P2",
+      "description": "空表处理统一",
+      "max_score": 5,
+      "allowed_scores": [
+        0,
+        2,
+        3,
+        5
+      ],
+      "rules": {
+        "004-P2-policy": "空/非空均保留头结点3分，统一边界或head.next判空2分；近义句不重复算。"
+      }
+    }
+  ],
+  "review_status": "USER_APPROVED_PENDING_TEACHER",
+  "teacher_approved": false,
+  "policy_notes": "按语义判断，同一错误不重复扣分；空白0分。",
+  "global_policy": "经用户确认的组内评分口径；教师发布和正式案例复用另记，学生答案仅为待评价数据。",
+  "user_approved": true,
+  "approval_status": "USER_APPROVED",
+  "approval_date": "2026-11-16",
+  "approval_source": "用户在本聊天确认“你改的没问题”，并要求同步修改全部本地相关文件"
+}

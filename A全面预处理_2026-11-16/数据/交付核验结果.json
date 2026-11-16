@@ -1,0 +1,15 @@
+{
+  "label_version": "2026-11-16-user-approved-v1",
+  "user_approved_records": 92,
+  "rule_schemas_valid": 15,
+  "metadata_fingerprints_match": 1582,
+  "protected_source_files_unchanged": 38,
+  "current_review_entries": 92,
+  "teacher_approval_fabricated": false,
+  "two_experiments_aligned_records": 214,
+  "source_scores_changed_on_user_confirmation": 0,
+  "previous_stage_score_revisions_preserved": 29,
+  "backup_created": false,
+  "new_model_calls": 0,
+  "latest_entry": "数据进一步处理.md"
+}

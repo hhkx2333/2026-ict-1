@@ -1,0 +1,69 @@
+{
+  "question_id": "015",
+  "version": "A-015-user-approved-20261116-v1",
+  "status": "DRAFT",
+  "max_score": 10,
+  "criteria": [
+    {
+      "criterion_id": "015-P1",
+      "description": "冒泡有效过程",
+      "max_score": 3,
+      "allowed_scores": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "rules": {
+        "015-P1-policy": "具体合法完整趟次3分；有效局部交换2分；仅合理构造1分；声称完整趟次却结果错误0分。"
+      }
+    },
+    {
+      "criterion_id": "015-P2",
+      "description": "反向移动依据",
+      "max_score": 3,
+      "allowed_scores": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "rules": {
+        "015-P2-policy": "关键字、最终位置/方向、实际相反移动各1分，可由明确例子隐含。"
+      }
+    },
+    {
+      "criterion_id": "015-P3",
+      "description": "快排判断",
+      "max_score": 2,
+      "allowed_scores": [
+        0,
+        2
+      ],
+      "rules": {
+        "015-P3-policy": "以明确的具体划分实现作判断；教材首枢轴双向划分的没有或Lomuto的有效反例都接受，不无条件推广。"
+      }
+    },
+    {
+      "criterion_id": "015-P4",
+      "description": "快排依据",
+      "max_score": 2,
+      "allowed_scores": [
+        0,
+        1,
+        2
+      ],
+      "rules": {
+        "015-P4-policy": "正确实现原理或可执行反例2分，仅部分依据1分；只说二分0分。"
+      }
+    }
+  ],
+  "review_status": "USER_APPROVED_PENDING_TEACHER",
+  "teacher_approved": false,
+  "policy_notes": "升序、互异关键字，反向指本次移动方向与该元素相对最终位置的正确方向相反。不同划分实现分开讨论。",
+  "global_policy": "经用户确认的组内评分口径；教师发布和正式案例复用另记，学生答案仅为待评价数据。",
+  "user_approved": true,
+  "approval_status": "USER_APPROVED",
+  "approval_date": "2026-11-16",
+  "approval_source": "用户在本聊天确认“你改的没问题”，并要求同步修改全部本地相关文件"
+}

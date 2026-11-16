@@ -1,0 +1,57 @@
+{
+  "question_id": "010",
+  "version": "A-010-user-approved-20261116-v1",
+  "status": "DRAFT",
+  "max_score": 10,
+  "criteria": [
+    {
+      "criterion_id": "010-P1",
+      "description": "FIFO及入栈顺序",
+      "max_score": 2,
+      "allowed_scores": [
+        0,
+        1,
+        2
+      ],
+      "rules": {
+        "010-P1-policy": "FIFO与进入栈的序列不变各1分。"
+      }
+    },
+    {
+      "criterion_id": "010-P2",
+      "description": "LIFO与首个输出",
+      "max_score": 3,
+      "allowed_scores": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "rules": {
+        "010-P2-policy": "LIFO1分，a1=3n推出全部已入且尚未有元素输出2分。"
+      }
+    },
+    {
+      "criterion_id": "010-P3",
+      "description": "结果",
+      "max_score": 5,
+      "allowed_scores": [
+        0,
+        2,
+        4,
+        5
+      ],
+      "rules": {
+        "010-P3-policy": "3(n-i+1)及范围或完整等价逆序序列5分；实质逆序正确但边界缺失4分；只说逆序2分。"
+      }
+    }
+  ],
+  "review_status": "USER_APPROVED_PENDING_TEACHER",
+  "teacher_approved": false,
+  "policy_notes": "按语义判断，同一错误不重复扣分；空白0分。",
+  "global_policy": "经用户确认的组内评分口径；教师发布和正式案例复用另记，学生答案仅为待评价数据。",
+  "user_approved": true,
+  "approval_status": "USER_APPROVED",
+  "approval_date": "2026-11-16",
+  "approval_source": "用户在本聊天确认“你改的没问题”，并要求同步修改全部本地相关文件"
+}

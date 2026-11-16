@@ -30,6 +30,8 @@ def prepend_note(p,note):
 
 
 def main():
+    if (DATA/'08_本轮暂行修订入口_2026-11-16.md').exists():
+        raise RuntimeError('当前已采用2026-11-16暂行版；此历史改分脚本不能覆盖新版本。')
     # Update only the active data package; no backup is made.
     original={};current={}
     for q in ['010','011']:

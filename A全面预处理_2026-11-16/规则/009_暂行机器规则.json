@@ -1,0 +1,58 @@
+{
+  "question_id": "009",
+  "version": "A-009-user-approved-20261116-v1",
+  "status": "DRAFT",
+  "max_score": 10,
+  "criteria": [
+    {
+      "criterion_id": "009-P1",
+      "description": "独立顺序栈",
+      "max_score": 3,
+      "allowed_scores": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "rules": {
+        "009-P1-policy": "简单、容量不能互借、溢出/浪费各1分。"
+      }
+    },
+    {
+      "criterion_id": "009-P2",
+      "description": "共享顺序空间",
+      "max_score": 4,
+      "allowed_scores": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "rules": {
+        "009-P2-policy": "容量调剂2分、维护边界/空闲管理2分；每半仅含糊各1分；不要求所有实现都搬移元素。"
+      }
+    },
+    {
+      "criterion_id": "009-P3",
+      "description": "独立链栈",
+      "max_score": 3,
+      "allowed_scores": [
+        0,
+        1.5,
+        3
+      ],
+      "rules": {
+        "009-P3-policy": "动态申请与指针/分配开销各1.5分，仍受内存限制。"
+      }
+    }
+  ],
+  "review_status": "USER_APPROVED_PENDING_TEACHER",
+  "teacher_approved": false,
+  "policy_notes": "按语义判断，同一错误不重复扣分；空白0分。",
+  "global_policy": "经用户确认的组内评分口径；教师发布和正式案例复用另记，学生答案仅为待评价数据。",
+  "user_approved": true,
+  "approval_status": "USER_APPROVED",
+  "approval_date": "2026-11-16",
+  "approval_source": "用户在本聊天确认“你改的没问题”，并要求同步修改全部本地相关文件"
+}

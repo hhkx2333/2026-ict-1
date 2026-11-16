@@ -1,0 +1,54 @@
+{
+  "question_id": "006",
+  "version": "A-006-user-approved-20261116-v1",
+  "status": "DRAFT",
+  "max_score": 10,
+  "criteria": [
+    {
+      "criterion_id": "006-P1",
+      "description": "否定绝对说法",
+      "max_score": 3,
+      "allowed_scores": [
+        0,
+        3
+      ],
+      "rules": {
+        "006-P1-policy": "明确错误或有效反例3分。"
+      }
+    },
+    {
+      "criterion_id": "006-P2",
+      "description": "栈限制",
+      "max_score": 3,
+      "allowed_scores": [
+        0,
+        1,
+        3
+      ],
+      "rules": {
+        "006-P2-policy": "解释只从栈顶删除3分；仅LIFO术语1分；完整单元素反例可隐含。"
+      }
+    },
+    {
+      "criterion_id": "006-P3",
+      "description": "合法删除",
+      "max_score": 4,
+      "allowed_scores": [
+        0,
+        2,
+        4
+      ],
+      "rules": {
+        "006-P3-policy": "逐个移走上方元素后删底，或单元素栈反例4分；方向正确不完整2分。"
+      }
+    }
+  ],
+  "review_status": "USER_APPROVED_PENDING_TEACHER",
+  "teacher_approved": false,
+  "policy_notes": "按语义判断，同一错误不重复扣分；空白0分。",
+  "global_policy": "经用户确认的组内评分口径；教师发布和正式案例复用另记，学生答案仅为待评价数据。",
+  "user_approved": true,
+  "approval_status": "USER_APPROVED",
+  "approval_date": "2026-11-16",
+  "approval_source": "用户在本聊天确认“你改的没问题”，并要求同步修改全部本地相关文件"
+}

@@ -1,0 +1,20 @@
+{
+  "status": "USER_APPROVED_DEVELOPMENT_TARGETS",
+  "score_scale": 10,
+  "tolerance": 1,
+  "severe_gap": 3,
+  "minimum_scored_coverage": 0.95,
+  "target_mae": 1,
+  "target_within_tolerance_per_reference": 0.8,
+  "maximum_severe_error_rate_per_reference": 0.05,
+  "target_human_audited_evidence_support_rate": 0.95,
+  "sample_low_risk_review_fraction": 0.1,
+  "all_flagged_answers_require_review": true,
+  "all_draft_results_require_review": true,
+  "teacher_approved": false,
+  "note": "给教师评估的开发目标，不是实测成绩、比赛官方标准或已经证明的阈值。",
+  "user_approved": true,
+  "approval_status": "USER_APPROVED",
+  "approval_date": "2026-11-16",
+  "approval_source": "用户在本聊天确认“你改的没问题”，并要求同步修改全部本地相关文件"
+}

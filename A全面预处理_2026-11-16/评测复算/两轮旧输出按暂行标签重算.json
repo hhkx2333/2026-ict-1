@@ -1,0 +1,22 @@
+{
+  "无得分点": {
+    "n": 107,
+    "mae": 1.1214953271028036,
+    "rmse": 1.459740086965939,
+    "within_1": 75,
+    "severe_3": 6,
+    "model_rerun": false,
+    "label_version": "2026-11-16-user-approved-v1",
+    "independent_effectiveness_claim_allowed": false
+  },
+  "有得分点": {
+    "n": 107,
+    "mae": 0.7850467289719626,
+    "rmse": 1.2151689240672225,
+    "within_1": 85,
+    "severe_3": 4,
+    "model_rerun": false,
+    "label_version": "2026-11-16-user-approved-v1",
+    "independent_effectiveness_claim_allowed": false
+  }
+}

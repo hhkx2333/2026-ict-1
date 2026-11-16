@@ -1,0 +1,70 @@
+[
+  {
+    "practice_id": "A-DRAFT-011-01",
+    "question_id": "A-PRACTICE-011-01",
+    "source_question_id": "011",
+    "criterion_ids": [
+      "011-P2",
+      "011-P3"
+    ],
+    "text": "采用输入栈S1和输出栈S2。入队a、b，出队一次，随后入队c。下一次出队返回什么？是否先将S1倒入S2？说明理由。",
+    "reference_answer": "应返回b，直接从非空S2弹出；不能把c先压到S2顶部，否则破坏FIFO。之后再出队c。",
+    "proposed_difficulty": "基础",
+    "provenance": "team_authored_draft_2026-11-15",
+    "teacher_approved": false,
+    "reviewer_id": null,
+    "reviewed_at": null,
+    "ai_recommendation": "建议采用为开发练习，题意和参考推理已作技术核查；教师最终批准前不进入正式推荐",
+    "user_approved": true,
+    "approval_status": "USER_APPROVED",
+    "approval_date": "2026-11-16",
+    "approval_source": "用户在本聊天确认“你改的没问题”，并要求同步修改全部本地相关文件",
+    "status": "USER_APPROVED_DEVELOPMENT_DRAFT"
+  },
+  {
+    "practice_id": "A-DRAFT-011-02",
+    "question_id": "A-PRACTICE-011-02",
+    "source_question_id": "011",
+    "criterion_ids": [
+      "011-P2",
+      "011-P3",
+      "011-P4"
+    ],
+    "text": "双持久栈实现中，入队向S1压栈。写出包含三种栈状态的出队伪代码，并说明为什么只检查S1为空不足以判断队列为空。",
+    "reference_answer": "S2非空时直接弹出；S2空时将S1全部逐个搬入S2，若仍为空则报告空队列，否则弹出。判空要求两栈同时为空。入队a、b并出队a后，S1空但S2仍有b。",
+    "proposed_difficulty": "基础至中等",
+    "provenance": "team_authored_draft_2026-11-15",
+    "teacher_approved": false,
+    "reviewer_id": null,
+    "reviewed_at": null,
+    "ai_recommendation": "建议采用为开发练习，题意和参考推理已作技术核查；教师最终批准前不进入正式推荐",
+    "user_approved": true,
+    "approval_status": "USER_APPROVED",
+    "approval_date": "2026-11-16",
+    "approval_source": "用户在本聊天确认“你改的没问题”，并要求同步修改全部本地相关文件",
+    "status": "USER_APPROVED_DEVELOPMENT_DRAFT"
+  },
+  {
+    "practice_id": "A-DRAFT-011-03",
+    "question_id": "A-PRACTICE-011-03",
+    "source_question_id": "011",
+    "criterion_ids": [
+      "011-P1",
+      "011-P4",
+      "011-P5"
+    ],
+    "text": "每次入队先将S2全部搬到S1，将新元素压入S2，再将S1全部搬回S2。出队前判空，随后弹出S2。非并发条件下，此算法是否实现FIFO，能否只检查S2判空？用混合操作解释，不要求复杂度。",
+    "reference_answer": "正确。每次入队结束S1为空，S2顶部为最早未出队元素，新元素放在底部。入队a、b，出队a，入队c后从顶到底为b、c。操作间隙只查S2为空即可。",
+    "proposed_difficulty": "中等",
+    "provenance": "team_authored_draft_2026-11-15",
+    "teacher_approved": false,
+    "reviewer_id": null,
+    "reviewed_at": null,
+    "ai_recommendation": "建议采用为开发练习，题意和参考推理已作技术核查；教师最终批准前不进入正式推荐",
+    "user_approved": true,
+    "approval_status": "USER_APPROVED",
+    "approval_date": "2026-11-16",
+    "approval_source": "用户在本聊天确认“你改的没问题”，并要求同步修改全部本地相关文件",
+    "status": "USER_APPROVED_DEVELOPMENT_DRAFT"
+  }
+]

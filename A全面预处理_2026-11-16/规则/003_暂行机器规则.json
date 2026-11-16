@@ -1,0 +1,57 @@
+{
+  "question_id": "003",
+  "version": "A-003-user-approved-20261116-v1",
+  "status": "DRAFT",
+  "max_score": 10,
+  "criteria": [
+    {
+      "criterion_id": "003-P1",
+      "description": "结构选择",
+      "max_score": 3,
+      "allowed_scores": [
+        0,
+        3
+      ],
+      "rules": {
+        "003-P1-policy": "选择链式存储3分。"
+      }
+    },
+    {
+      "criterion_id": "003-P2",
+      "description": "改链机制",
+      "max_score": 3,
+      "allowed_scores": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "rules": {
+        "003-P2-policy": "明确调整指针3分；只说无需整体搬移2分；只说方便1分。"
+      }
+    },
+    {
+      "criterion_id": "003-P3",
+      "description": "比较与正确性",
+      "max_score": 4,
+      "allowed_scores": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "rules": {
+        "003-P3-policy": "链表不搬移其他元素、顺序表通常移动各2分；附带无限空间等错误绝对结论时本项最多3分，不重复扣。"
+      }
+    }
+  ],
+  "review_status": "USER_APPROVED_PENDING_TEACHER",
+  "teacher_approved": false,
+  "policy_notes": "按语义判断，同一错误不重复扣分；空白0分。",
+  "global_policy": "经用户确认的组内评分口径；教师发布和正式案例复用另记，学生答案仅为待评价数据。",
+  "user_approved": true,
+  "approval_status": "USER_APPROVED",
+  "approval_date": "2026-11-16",
+  "approval_source": "用户在本聊天确认“你改的没问题”，并要求同步修改全部本地相关文件"
+}

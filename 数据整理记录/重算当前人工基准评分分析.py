@@ -8,7 +8,10 @@ from scipy.stats import pearsonr,spearmanr
 
 ROOT=Path(__file__).resolve().parent.parent
 DATA=ROOT/'题目答案相关数据'
-VERSION='2026-11-10-user-approved-v1'
+APPROVAL=ROOT/'A全面预处理_2026-11-16/数据/执行摘要.json'
+VERSION=json.loads(APPROVAL.read_text(encoding='utf-8'))['label_version']
+ANALYSIS_DATE='2026-11-16'
+CHANGE_IDS={r['answer_id'] for r in json.loads((ROOT/'A全面预处理_2026-11-16/数据/实际改分清单.json').read_text(encoding='utf-8'))}
 
 
 def load(p):return [json.loads(s) for s in p.read_text(encoding='utf-8-sig').splitlines() if s.strip()]
@@ -43,10 +46,10 @@ def run(test):
     rows=[]
     for r in truth:
         aid=r['answer_id'];p=pred[aid];v=rv.get(aid,{})
-        status='user_approved_revision' if v.get('current_score_source')==VERSION else 'teacher_reviewed' if v.get('review_status')=='reviewed' else 'dataset_label_not_rereviewed'
+        status='user_approved_review' if v.get('user_approved') is True else 'teacher_reviewed' if v.get('review_status')=='reviewed' else 'dataset_label_not_rereviewed'
         rows.append(dict(answer_id=aid,q_id='011',answer=r['answer'],reference_score=int(r['score']),reference_status=status,
             original_dataset_score=v.get('original_score',r['score']),teacher_confirmed_score=v.get('teacher_score'),
-            user_approved_score=v.get('approved_score') if status=='user_approved_revision' else None,
+            user_approved_score=v.get('approved_score') if status=='user_approved_review' else None,
             model_score=int(p['score']),signed_error=int(p['score'])-int(r['score']),absolute_error=abs(int(p['score'])-int(r['score'])),
             model_reason=p['reason'],answer_length=len(r['answer'].strip()),label_version=VERSION))
     a=metrics(rows);groups=defaultdict(list)
@@ -65,9 +68,13 @@ def run(test):
     cm=np.zeros((11,11),int)
     for r in rows:cm[r['reference_score'],r['model_score']]+=1
     meta=json.loads((out/'011_实验配置.json').read_text(encoding='utf-8'))
-    meta.update(analysis_date='2026-11-10',label_version=VERSION,metrics_recomputed_without_model_rerun=True,
-        reference_definition='题目答案相关数据当前有分版，分别标明教师修订、用户确认修订和未重审原标签',
-        reference_sha256=hashlib.sha256(truth_path.read_bytes()).hexdigest(),truth_snapshot_sha256=hashlib.sha256(truth_path.read_bytes()).hexdigest(),teacher_reviewed_count=7,user_approved_revision_count=5,not_rereviewed_count=95,
+    meta.update(analysis_date=ANALYSIS_DATE,label_version=VERSION,metrics_recomputed_without_model_rerun=True,
+        reference_definition='当前组内确认基准；用户确认与历史教师总分分别记录，不冒称新增教师逐项审核',
+        reference_sha256=hashlib.sha256(truth_path.read_bytes()).hexdigest(),truth_snapshot_sha256=hashlib.sha256(truth_path.read_bytes()).hexdigest(),
+        teacher_reviewed_count=sum(x['teacher_confirmed_score'] is not None for x in rows),
+        user_approved_revision_count=sum(x['answer_id'] in CHANGE_IDS for x in rows),
+        user_approved_review_count=sum(x['reference_status']=='user_approved_review' for x in rows),
+        not_rereviewed_count=sum(x['reference_status']=='dataset_label_not_rereviewed' for x in rows),
         current_rule_file_sha256=hashlib.sha256((test/'01_题目与参考答案.md').read_bytes()).hexdigest(),
         actual_model_input_record='原模型运行时题目与答案保存在评测输入快照；当前规则文件可有后续更新，未据此重新调用模型')
     meta['input_question_snapshot_sha256']=hashlib.sha256((out/'评测输入快照/01_题目与参考答案.md').read_bytes()).hexdigest()
@@ -110,7 +117,7 @@ def plots(out,rows,r,cm,is_rubric):
     ax.plot(grades,means,'o-',color='#ce8149',label='模型平均分');ax.plot([0,10],[0,10],'--',color='#75818b',label='完全一致')
     ax.set(xticks=xx,xlabel='当前人工基准',ylabel='模型平均分',title='不同人工分档的模型表现',ylim=(-.3,10.8));ax.legend(fontsize=9)
     condition='有得分点' if is_rubric else '无得分点'
-    fig.suptitle(f'011题（{condition}）｜当前基准v2026-11-10｜MAE={a["mae"]:.2f}｜±1分={a["within1_rate"]:.1%}',fontsize=14)
+    fig.suptitle(f'011题（{condition}）｜{VERSION}｜MAE={a["mae"]:.2f}｜±1分={a["within1_rate"]:.1%}',fontsize=12)
     fig.savefig(out/'011_评分对比图.png',dpi=160);plt.close(fig)
     matrix_path=out/'011_评分混淆矩阵.png'
     if matrix_path.exists():
@@ -118,70 +125,61 @@ def plots(out,rows,r,cm,is_rubric):
         for i in range(11):
             for j in range(11):
                 if cm[i,j]:ax.text(j,i,str(cm[i,j]),ha='center',va='center',color='white' if cm[i,j]>cm.max()*.55 else '#203345')
-        ax.set(xticks=xx,yticks=xx,xlabel='模型分数',ylabel='当前人工基准',title='011评分混淆矩阵｜2026-11-10基准');fig.colorbar(im,ax=ax)
+        ax.set(xticks=xx,yticks=xx,xlabel='模型分数',ylabel='当前确认基准',title=f'011评分混淆矩阵｜{VERSION}');fig.colorbar(im,ax=ax)
         fig.savefig(matrix_path,dpi=160);plt.close(fig)
 
 
 def report(out,rows,r,is_rubric):
-    a=r['overall'];condition='有得分点' if is_rubric else '无得分点';ix={x['answer_id']:x for x in rows}
-    lines=[f'# 011题：{condition}模型评分与当前人工基准\n',
-        f'重算日期：2026年11月10日。基准版本：{VERSION}。模型名称按用户实验记录为DeepSeek-V4.1-Flash-1017，运行于CodeArts Agent。\n',
-        '**本报告使用原先保存的107条模型输出，仅按新人工基准重新计算，不是重新运行模型。** 当前基准包括7条既有教师审核、5条用户确认修订、95条未在本项目重新核分的原标签。用户确认未冒称教师新增签字。\n',
-        '## 1. 主要结论\n',
-        f'人工平均分{a["reference_mean"]:.2f}，模型平均分{a["model_mean"]:.2f}；模型平均高出{a["bias"]:.2f}分。MAE为{a["mae"]:.2f}，完全同分率{a["exact_rate"]:.1%}，误差≤1分的比例{a["within1_rate"]:.1%}。这些是一致性指标，不能视为全部标签经教师重新裁定后的真实正确率。\n',
-        '本次标签已按用户确认接受020、037、057的正确替代解法，并修订046、069。原来的“这些标签待定”判断已被当前确认版替代。该批案例参与了规则与标签调整，应继续视为开发/校准数据。\n',
+    a=r['overall'];meta=r['metadata'];condition='有得分点' if is_rubric else '无得分点'
+    approved=meta['user_approved_review_count'];unreviewed=meta['not_rereviewed_count']
+    lines=[f'# 011题：{condition}模型评分与当前组内确认基准\n',
+        f'重算日期：{ANALYSIS_DATE}；标签集：`{VERSION}`。\n',
+        '**本报告复用原先保存的107条模型输出，更新参考标签后重新计算，没有新模型调用。**\n',
+        f'本题107条中，{approved}条经过本轮用户确认审阅，{unreviewed}条仍沿用未重新核分的原标签。'
+        f'另有{meta["teacher_reviewed_count"]}条保留历史教师总分记录；这些统计可能重叠，不能相加充作样本数。'
+        '没有把用户确认冒称新增教师签字。\n',
+        '## 整体一致性\n','| 指标 | 当前值 |','| --- | ---: |',
+        f'| 平均绝对误差MAE | {a["mae"]:.6f} |',f'| RMSE | {a["rmse"]:.6f} |',
+        f'| 平均有符号差 | {a["bias"]:+.6f} |',f'| 完全同分 | {a["exact_count"]}/107 |',
+        f'| 误差≤1分 | {a["within1_count"]}/107，{a["within1_rate"]:.1%} |',
+        f'| 误差≤2分 | {a["within2_count"]}/107，{a["within2_rate"]:.1%} |',
+        f'| 绝对差≥3 / ≥4分 | {a["abs_ge3_count"]} / {a["abs_ge4_count"]}条 |',
+        f'| 高于 / 低于参考分 | {a["over_count"]} / {a["under_count"]}条 |',
+        f'| Pearson / Spearman | {a["pearson"]:.3f} / {a["spearman"]:.3f} |',
+        f'| 二次加权Kappa | {a["quadratic_weighted_kappa"]:.3f} |\n',
         '![评分对比图](011_评分对比图.png)\n',
-        '## 2. 数据与实验口径\n',
-        '- 107个唯一答案编号全部对齐；无分输入未携带分数，答案文本与当前有分版一致，均未因本次改分而变化。',
-        '- 模型原始结果、实验当时输入的题目快照保留原样。当前题目MD可能包含后续规则更新，不能倒称模型运行时看过这些新规则。',
-        '- 评测输入快照中的人工基准文件已同步当前确认版；标签版本、SHA-256及复算时间写入实验配置。',
-        '- 仅一次保存的模型结果；未测多次运行稳定性，未新增模型调用或费用。\n',
-        '## 3. 整体一致性\n','| 指标 | 实测 |','| --- | ---: |',
-        f'| 平均绝对误差MAE | {a["mae"]:.3f} |',f'| RMSE | {a["rmse"]:.3f} |',f'| 平均有符号差 | {a["bias"]:+.3f} |',
-        f'| 完全同分 | {a["exact_count"]}/107，{a["exact_rate"]:.1%} |',f'| 误差≤1分 | {a["within1_count"]}/107，{a["within1_rate"]:.1%} |',
-        f'| 误差≤2分 | {a["within2_count"]}/107，{a["within2_rate"]:.1%} |',f'| 绝对差≥3分 / ≥4分 | {a["abs_ge3_count"]} / {a["abs_ge4_count"]}条 |',
-        f'| 高于 / 低于人工基准 | {a["over_count"]} / {a["under_count"]}条 |',f'| 最大正差 / 最大负差 | +{a["max_over"]:.0f} / {a["max_under"]:.0f} |',
-        f'| Pearson / Spearman | {a["pearson"]:.3f} / {a["spearman"]:.3f} |',f'| 二次加权Kappa | {a["quadratic_weighted_kappa"]:.3f} |\n',
-        '## 4. 各人工分档\n','| 人工分 | N | 模型平均分 | MAE | 平均差值 |','| ---: | ---: | ---: | ---: | ---: |']
+        '这些指标是保存输出与当前组内标签的一致性。部分标签在查看模型分歧后修订，样本也已用于开发，'
+        '不能据此声称模型重新运行后更准、真实教师校准收益或独立最终测试效果。\n',
+        '## 数据与版本\n',
+        '- 107个编号全部对齐，答案原文不变。',
+        '- 原始模型输出、实际运行时的题目/无分答案快照保持原样；当前规则可能比当时新，不能倒称模型看过新规则。',
+        '- 评测用参考分快照同步当前标签，标签和SHA256写入实验配置。',
+        '- 最新逐项确认与29条改分依据见[数据进一步处理](../../数据进一步处理.md)。\n',
+        '## 各参考分档\n','| 参考分 | N | 模型均分 | MAE | 平均差 |','| ---: | ---: | ---: | ---: | ---: |']
     for s,m in r['by_reference_score'].items():lines.append(f'| {s} | {m["n"]} | {m["model_mean"]:.2f} | {m["mae"]:.2f} | {m["bias"]:+.2f} |')
-    lines += ['\n各档样本量不相等，低分档部分仅有少量样本。分档均值不能直接证明模型对某类答案普遍有效或无效。\n',
-        '## 5. 标签来源与重复文本\n','| 子集 | N | MAE | 完全同分率 |','| --- | ---: | ---: | ---: |']
-    labels={'teacher_reviewed':'既有教师审核','user_approved_revision':'本次用户确认修订','dataset_label_not_rereviewed':'未在本项目重新审核的原标签','unique_texts':'去空白文本去重后'}
-    for key,m in r['subgroups'].items():lines.append(f'| {labels[key]} | {m["n"]} | {m["mae"]:.2f} | {m["exact_rate"]:.1%} |')
-    lines += ['\n7条教师案例只有两种文本；已知规则和同文样本不等于多个独立测试。用户确认的5条也参与了开发讨论，不能拿该子集单独证明模型泛化。\n',
-        '## 6. 阈值一致性\n','6、9、10分为探索性界线，不代表已确认的业务验收阈值。\n',
-        '| 阈值 | 人工未达→模型达到 | 人工达到→模型未达 | 一致率 |','| --- | ---: | ---: | ---: |']
+    lines+=['\n## 互斥来源子集及同文去重\n','| 子集 | N | MAE | 完全同分率 |','| --- | ---: | ---: | ---: |']
+    labels={'teacher_reviewed':'仅历史教师总分审核','user_approved_review':'本轮用户确认审阅','dataset_label_not_rereviewed':'沿用原数据集标签','unique_texts':'去空白文本去重后'}
+    for k,m in r['subgroups'].items():lines.append(f'| {labels.get(k,k)} | {m["n"]} | {m["mae"]:.3f} | {m["exact_rate"]:.1%} |')
+    lines+=['\n同文组不是多个独立测试；原学习样本和移出的历史学习样本仍应排除，当前材料均按开发用途处理。\n',
+        '## 探索性阈值\n','6、9、10分只是分档分析，不代表正式业务合格阈值。\n',
+        '| 阈值 | 参考未达→模型达到 | 参考达到→模型未达 | 一致率 |','| --- | ---: | ---: | ---: |']
     for cut,m in r['thresholds'].items():lines.append(f'| ≥{cut} | {m["false_high"]} | {m["false_low"]} | {m["agreement"]:.1%} |')
-    full_n=sum(x['reference_score']==10 for x in rows);model_n=sum(x['model_score']==10 for x in rows);match=sum(x['reference_score']==x['model_score']==10 for x in rows)
-    lines += [f'\n当前人工满分{full_n}条，模型满分{model_n}条，其中同时满分{match}条。其他不一致要结合评分依据核查，不仅凭标签差异断定模型错误。\n',
-        '## 7. 已确认案例与剩余问题\n','| 答案编号 | 当前人工分 | 保存的模型分 | 当前结论 |','| --- | ---: | ---: | --- |']
-    notes={'011-000046':'用户确认4分；保留局部正确分，不补出完整倒栈和继续出队分支。',
-           '011-000069':'用户确认6分；不能借用入队循环给出队搬移分，概念分可单计。',
-           '011-000020':'用户确认10分；出队后还原S1，单栈判空成立。',
-           '011-000037':'用户确认10分；S2存队列，S1临时辅助，符合FIFO。',
-           '011-000057':'用户确认10分；新元素置底后还原旧元素，符合FIFO。',
-           '011-000038':'原文明确两栈均空，理由必须与原文一致；原标签仍待进一步审核。',
-           '011-000077':'存在代码条件反向；是否识别应直接对照原文，文字与代码配分仍需统一。',
-           '011-000101':'等待S2清空的约束是否支持任意交错操作，仍需复核。'}
-    for aid,note in notes.items():
-        x=ix[aid];lines.append(f'| {aid} | {x["reference_score"]} | {x["model_score"]} | {note} |')
-    lines += ['\n逐条原文及保存的模型理由见[差异案例复核清单](011_差异案例复核清单.md)。尚未输出完整逐项分值与原文依据，不能仅因总分有理由就认定过程完全可追溯。\n',
-        '## 8. 运行记录与后续使用\n']
-    if is_rubric:lines+=['界面原记录为4分57秒、预估积分10.67；这是原实验的界面值，非本次复算新增费用，也不是已核验账单。\n']
-    else:lines+=['原实验未记录同口径耗时与积分，本次不补造数据。\n']
-    lines += ['模型输出没有重跑，指标变化来自人工标签修订。以后评估时必须记录固定标签版本；正式测试另留未参与规则或标签调整的答案。\n',
-        '## 9. 文件\n',
-        '- [统计结果](011_统计结果.json)、[实验配置](011_实验配置.json)、[逐条对照](011_逐条评分对照.jsonl)。',
-        '- [保存的模型原始结果](011_模型批改原始结果.json)。',
-        '- 题目与无分输入的历史记录保留在评测输入快照；人工基准已更新到本报告版本。\n']
+    lines+=['\n## 运行信息与文件\n','模型名称、原运行平台、耗时和费用继续以原实验记录为准，本次不新填运行事实。',
+        '统计数据：[统计结果](011_统计结果.json)、[实验配置](011_实验配置.json)、[逐条对照](011_逐条评分对照.jsonl)。',
+        '原始结果：[保存的模型输出](011_模型批改原始结果.json)。',
+        '案例：[当前分差与确认依据](011_差异案例复核清单.md)。\n']
     (out/'011_普通模型评分对比报告.md').write_text('\n'.join(lines),encoding='utf-8')
-    case=['# 011题评分差异案例与确认状态\n',f'基准版本：{VERSION}。用户确认修订单独归因，不冒充教师新增审核；模型结果未重跑。\n']
-    for aid,note in notes.items():
-        x=ix[aid];case += [f'## {aid}\n',f'当前人工基准{x["reference_score"]}，模型{x["model_score"]}，分差{x["signed_error"]:+d}。\n',
-            '```text',x['answer'].rstrip(),'```\n','**保存的模型理由：** '+x['model_reason']+'\n','**当前判断：** '+note+'\n']
-    case += ['## 全部绝对差≥3分的记录\n','| 编号 | 人工基准 | 模型 | 分差 |','| --- | ---: | ---: | ---: |']
-    for x in sorted((x for x in rows if x['absolute_error']>=3),key=lambda x:(-x['absolute_error'],x['answer_id'])):
-        case.append(f'| {x["answer_id"]} | {x["reference_score"]} | {x["model_score"]} | {x["signed_error"]:+d} |')
+    decisions={x['answer_id']:x for x in load(ROOT/'A全面预处理_2026-11-16/数据/全部疑点逐项预处理.jsonl')}
+    chosen=CHANGE_IDS | {x['answer_id'] for x in rows if x['absolute_error']>=3} | {'011-000083','011-000102','011-000053'}
+    case=['# 011当前分差与用户确认依据\n',f'标签集：`{VERSION}`。保存的模型输出没有重跑。\n',
+          '| 编号 | 当前参考 | 模型 | 模型−参考 | 状态 |','| --- | ---: | ---: | ---: | --- |']
+    for x in sorted((x for x in rows if x['answer_id'] in chosen),key=lambda x:(-x['absolute_error'],x['answer_id'])):
+        case.append(f'| {x["answer_id"]} | {x["reference_score"]} | {x["model_score"]} | {x["signed_error"]:+d} | {x["reference_status"]} |')
+    for x in sorted((x for x in rows if x['answer_id'] in chosen),key=lambda x:x['answer_id']):
+        decision=decisions.get(x['answer_id'])
+        note=decision['decision_reason'] if decision else '本轮尚未重新逐项判分，保留原标签；分差不等于任一方已被证明错误。'
+        case += [f'\n## {x["answer_id"]}\n',f'当前参考{x["reference_score"]}，保存模型{x["model_score"]}，分差{x["signed_error"]:+d}。\n',
+                 '```text',x['answer'].rstrip(),'```\n','**用户确认的处理依据：** '+note+'\n','**保存的模型理由：** '+x['model_reason']+'\n']
     (out/'011_差异案例复核清单.md').write_text('\n'.join(case)+'\n',encoding='utf-8')
 
 

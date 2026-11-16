@@ -1,0 +1,263 @@
+[
+  {
+    "answer_id": "011-000002",
+    "previous_score": 6.0,
+    "provisional_score": 10,
+    "decision_reason": "全部反转后弹出所需队首，再把剩余还原到S1，替代实现正确；按一次操作取一个理解。",
+    "label_version": "2026-11-16-user-approved-v1",
+    "user_approved": true,
+    "approval_date": "2026-11-16"
+  },
+  {
+    "answer_id": "011-000004",
+    "previous_score": 4.0,
+    "provisional_score": 10,
+    "decision_reason": "入队前先还原S2到S1，出队时若S1有元素则反转，否则直接从S2取；按集合式搬移理解可维持不变量。",
+    "label_version": "2026-11-16-user-approved-v1",
+    "user_approved": true,
+    "approval_date": "2026-11-16"
+  },
+  {
+    "answer_id": "011-000008",
+    "previous_score": 4.0,
+    "provisional_score": 5,
+    "decision_reason": "入队2，S2出栈操作1，倒栈后弹出1；未说明全部和触发条件；S1有元素则非空只是正确充分条件1。",
+    "label_version": "2026-11-16-user-approved-v1",
+    "user_approved": true,
+    "approval_date": "2026-11-16"
+  },
+  {
+    "answer_id": "011-000013",
+    "previous_score": 10.0,
+    "provisional_score": 5,
+    "decision_reason": "满栈转移后没写新元素入栈；非空出队正确，空S2触发1但未写全部转移和最后弹出；判空结论未写完1。",
+    "label_version": "2026-11-16-user-approved-v1",
+    "user_approved": true,
+    "approval_date": "2026-11-16"
+  },
+  {
+    "answer_id": "011-000015",
+    "previous_score": 7.0,
+    "provisional_score": 10,
+    "decision_reason": "实际代码每次出队都完整还原到S1并正确判空，暂给10；文字中延迟还原的可选优化没有实现，不能扩展该优化后仍只查S1。",
+    "label_version": "2026-11-16-user-approved-v1",
+    "user_approved": true,
+    "approval_date": "2026-11-16"
+  },
+  {
+    "answer_id": "011-000017",
+    "previous_score": 6.0,
+    "provisional_score": 7,
+    "decision_reason": "缺独立非空S2分支和仅空才搬移条件；全部倒栈及随后弹出2，双栈判空2，正确FIFO解释1。",
+    "label_version": "2026-11-16-user-approved-v1",
+    "user_approved": true,
+    "approval_date": "2026-11-16"
+  },
+  {
+    "answer_id": "011-000019",
+    "previous_score": 5.0,
+    "provisional_score": 7,
+    "decision_reason": "有恢复旧元素但非空S2的入队分支漏明确压入新元素；S1非空时反转出队正确，但S1空S2非空的直接出队没写。",
+    "label_version": "2026-11-16-user-approved-v1",
+    "user_approved": true,
+    "approval_date": "2026-11-16"
+  },
+  {
+    "answer_id": "011-000024",
+    "previous_score": 6.0,
+    "provisional_score": 10,
+    "decision_reason": "每次入队先还原S2再压入新值，操作间隙不会同时残留两栈；出队两种情形完整，合法替代流程。",
+    "label_version": "2026-11-16-user-approved-v1",
+    "user_approved": true,
+    "approval_date": "2026-11-16"
+  },
+  {
+    "answer_id": "011-000025",
+    "previous_score": 4.0,
+    "provisional_score": 9,
+    "decision_reason": "移开n-1个后弹出栈底与后续从S2出队正确；入队将S2还原S1未明确全部，暂保留方向1并标注歧义。",
+    "label_version": "2026-11-16-user-approved-v1",
+    "user_approved": true,
+    "approval_date": "2026-11-16"
+  },
+  {
+    "answer_id": "011-000027",
+    "previous_score": 9.0,
+    "provisional_score": 10,
+    "decision_reason": "即部分明确S2为空先搬移，S2出栈作为一般出队；分支和不变量完整，暂给10。",
+    "label_version": "2026-11-16-user-approved-v1",
+    "user_approved": true,
+    "approval_date": "2026-11-16"
+  },
+  {
+    "answer_id": "011-000038",
+    "previous_score": 5.0,
+    "provisional_score": 7,
+    "decision_reason": "全部倒栈及弹出清楚，但缺少S2非空直接弹出和仅S2空才搬移；整体反转支持概念分。",
+    "label_version": "2026-11-16-user-approved-v1",
+    "user_approved": true,
+    "approval_date": "2026-11-16"
+  },
+  {
+    "answer_id": "011-000043",
+    "previous_score": 9.0,
+    "provisional_score": 8,
+    "decision_reason": "空S2分支写了条件及全部搬移，但漏搬完后的实际弹出，不能自动补；没有额外FIFO解释或完整流程。",
+    "label_version": "2026-11-16-user-approved-v1",
+    "user_approved": true,
+    "approval_date": "2026-11-16"
+  },
+  {
+    "answer_id": "011-000045",
+    "previous_score": 10.0,
+    "provisional_score": 8,
+    "decision_reason": "入队文字混乱仅方向1；优先S2再倒S1的出队及FIFO有依据；判空仅给非空充分条件1。",
+    "label_version": "2026-11-16-user-approved-v1",
+    "user_approved": true,
+    "approval_date": "2026-11-16"
+  },
+  {
+    "answer_id": "011-000050",
+    "previous_score": 9.0,
+    "provisional_score": 5,
+    "decision_reason": "每次新入元素立即移到S2会把新值放到旧队首上，不能认定完整入队；保留方向、直接弹出、判空和正确概述。",
+    "label_version": "2026-11-16-user-approved-v1",
+    "user_approved": true,
+    "approval_date": "2026-11-16"
+  },
+  {
+    "answer_id": "011-000052",
+    "previous_score": 5.0,
+    "provisional_score": 7,
+    "decision_reason": "具体DeQueue把S1非空写成报空，搬移分支只剩空S1时可达，不能给出队搬移分；入队、S2非空出队、判空与概念分别保留。",
+    "label_version": "2026-11-16-user-approved-v1",
+    "user_approved": true,
+    "approval_date": "2026-11-16"
+  },
+  {
+    "answer_id": "011-000053",
+    "previous_score": 9.0,
+    "provisional_score": 10,
+    "decision_reason": "分别说明两种非空情形及S2空时全部倒栈，优先消耗S2、双栈判空，流程隐含FIFO；据此暂改10分。",
+    "label_version": "2026-11-16-user-approved-v1",
+    "user_approved": true,
+    "approval_date": "2026-11-16"
+  },
+  {
+    "answer_id": "011-000058",
+    "previous_score": 4.0,
+    "provisional_score": 8,
+    "decision_reason": "入队和S2非空分支正确；S2空的条件和随后弹出正确，未说明全部逐个搬移；不凭含糊过程补FIFO分。",
+    "label_version": "2026-11-16-user-approved-v1",
+    "user_approved": true,
+    "approval_date": "2026-11-16"
+  },
+  {
+    "answer_id": "011-000059",
+    "previous_score": 9.0,
+    "provisional_score": 7,
+    "decision_reason": "空S2条件正确，但写成S1全部压回S1且漏最后弹出；不自动修正栈名后给搬移分。",
+    "label_version": "2026-11-16-user-approved-v1",
+    "user_approved": true,
+    "approval_date": "2026-11-16"
+  },
+  {
+    "answer_id": "011-000062",
+    "previous_score": 0.0,
+    "provisional_score": 3,
+    "decision_reason": "双栈概述有局部方向和反转概念，具体操作却为循环队列；仅保留方向1、概述转移后弹出1、概念1。",
+    "label_version": "2026-11-16-user-approved-v1",
+    "user_approved": true,
+    "approval_date": "2026-11-16"
+  },
+  {
+    "answer_id": "011-000063",
+    "previous_score": 6.0,
+    "provisional_score": 7,
+    "decision_reason": "批量全部反转与随后弹出有依据，缺S2非空处理和触发条件；判空及隐含FIFO保留。",
+    "label_version": "2026-11-16-user-approved-v1",
+    "user_approved": true,
+    "approval_date": "2026-11-16"
+  },
+  {
+    "answer_id": "011-000065",
+    "previous_score": 9.0,
+    "provisional_score": 7,
+    "decision_reason": "S1满直接压S2破坏已有队首顺序，入队1；非空分支2；空S2条件与随后输出2，没明确全部搬移。",
+    "label_version": "2026-11-16-user-approved-v1",
+    "user_approved": true,
+    "approval_date": "2026-11-16"
+  },
+  {
+    "answer_id": "011-000068",
+    "previous_score": 5.0,
+    "provisional_score": 10,
+    "decision_reason": "各场景以注释明确条件，题目要求简述，可作分场景伪代码而非顺序执行片段；完整反转、弹出、判空和概念均有依据。",
+    "label_version": "2026-11-16-user-approved-v1",
+    "user_approved": true,
+    "approval_date": "2026-11-16"
+  },
+  {
+    "answer_id": "011-000070",
+    "previous_score": 6.0,
+    "provisional_score": 10,
+    "decision_reason": "逐个移走除最早元素外的数据、弹出最早元素再还原，合法替代方案。",
+    "label_version": "2026-11-16-user-approved-v1",
+    "user_approved": true,
+    "approval_date": "2026-11-16"
+  },
+  {
+    "answer_id": "011-000073",
+    "previous_score": 3.0,
+    "provisional_score": 6,
+    "decision_reason": "入队代码pop未调用且混用指针语法，保留方向；实际出队只处理S1空而S2非空，未实现概述的反转；判空和正确概念保留。",
+    "label_version": "2026-11-16-user-approved-v1",
+    "user_approved": true,
+    "approval_date": "2026-11-16"
+  },
+  {
+    "answer_id": "011-000077",
+    "previous_score": 5.0,
+    "provisional_score": 7,
+    "decision_reason": "函数名称可辨认真实操作，不按写反小标题扣两次；具体出队的S1条件写反，按052同类处理。",
+    "label_version": "2026-11-16-user-approved-v1",
+    "user_approved": true,
+    "approval_date": "2026-11-16"
+  },
+  {
+    "answer_id": "011-000081",
+    "previous_score": 5.0,
+    "provisional_score": 8,
+    "decision_reason": "反转、弹出并还原是正确替代出队，可隐含FIFO；完全没有回答判空，故不补该2分。",
+    "label_version": "2026-11-16-user-approved-v1",
+    "user_approved": true,
+    "approval_date": "2026-11-16"
+  },
+  {
+    "answer_id": "011-000086",
+    "previous_score": 5.0,
+    "provisional_score": 3,
+    "decision_reason": "角色分配和泛称出栈仅有方向；缺少反转；不同时为空只含非空方向，不能给完整判空。",
+    "label_version": "2026-11-16-user-approved-v1",
+    "user_approved": true,
+    "approval_date": "2026-11-16"
+  },
+  {
+    "answer_id": "011-000094",
+    "previous_score": 5.0,
+    "provisional_score": 10,
+    "decision_reason": "每次出队反转S1、弹出并把剩余还原S1，单持久栈判空正确。",
+    "label_version": "2026-11-16-user-approved-v1",
+    "user_approved": true,
+    "approval_date": "2026-11-16"
+  },
+  {
+    "answer_id": "011-000102",
+    "previous_score": 9.0,
+    "provisional_score": 5,
+    "decision_reason": "入队条件不完整；S2非空出队和双栈判空正确；入队满栈搬移不能补作缺失的出队倒栈。",
+    "label_version": "2026-11-16-user-approved-v1",
+    "user_approved": true,
+    "approval_date": "2026-11-16"
+  }
+]

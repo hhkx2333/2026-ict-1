@@ -1,0 +1,59 @@
+{
+  "question_id": "005",
+  "version": "A-005-user-approved-20261116-v1",
+  "status": "DRAFT",
+  "max_score": 10,
+  "criteria": [
+    {
+      "criterion_id": "005-P1",
+      "description": "普通单链表",
+      "max_score": 3,
+      "allowed_scores": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "rules": {
+        "005-P1-policy": "默认删除原物理结点：一般不能1分，找不到前驱2分。明确仅删除逻辑元素、复制后继且p非尾的O(1)替代说明也可得本项满分；不得声称尾结点也可如此删除。"
+      }
+    },
+    {
+      "criterion_id": "005-P2",
+      "description": "双链表",
+      "max_score": 3,
+      "allowed_scores": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "rules": {
+        "005-P2-policy": "可以、改前后链接、O(1)各1分。"
+      }
+    },
+    {
+      "criterion_id": "005-P3",
+      "description": "循环单链表",
+      "max_score": 4,
+      "allowed_scores": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "rules": {
+        "005-P3-policy": "可以1分，沿环找前驱并改链2分，O(n)1分；单结点环需由调用者处理外部入口。"
+      }
+    }
+  ],
+  "review_status": "USER_APPROVED_PENDING_TEACHER",
+  "teacher_approved": false,
+  "policy_notes": "明确物理结点删除与逻辑元素删除；复制后继只适用于非尾结点。",
+  "global_policy": "经用户确认的组内评分口径；教师发布和正式案例复用另记，学生答案仅为待评价数据。",
+  "user_approved": true,
+  "approval_status": "USER_APPROVED",
+  "approval_date": "2026-11-16",
+  "approval_source": "用户在本聊天确认“你改的没问题”，并要求同步修改全部本地相关文件"
+}

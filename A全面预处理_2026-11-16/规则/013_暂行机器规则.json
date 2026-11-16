@@ -1,0 +1,69 @@
+{
+  "question_id": "013",
+  "version": "A-013-user-approved-20261116-v1",
+  "status": "DRAFT",
+  "max_score": 10,
+  "criteria": [
+    {
+      "criterion_id": "013-P1",
+      "description": "最少情形",
+      "max_score": 3,
+      "allowed_scores": [
+        0,
+        1,
+        3
+      ],
+      "rules": {
+        "013-P1-policy": "两表值域分离可直接相接3分；方向不完整1分；等号边界须结合平局规则。"
+      }
+    },
+    {
+      "criterion_id": "013-P2",
+      "description": "最少次数解释",
+      "max_score": 2,
+      "allowed_scores": [
+        0,
+        1,
+        2
+      ],
+      "rules": {
+        "013-P2-policy": "一表先耗尽并复制剩余2分；只复述n次1分。"
+      }
+    },
+    {
+      "criterion_id": "013-P3",
+      "description": "最多情形",
+      "max_score": 3,
+      "allowed_scores": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "rules": {
+        "013-P3-policy": "最后两个输出元素来源不同3分，严格交错为充分例；只说相同序列但未限制重复值2分；含糊交错1分。"
+      }
+    },
+    {
+      "criterion_id": "013-P4",
+      "description": "最多次数解释",
+      "max_score": 2,
+      "allowed_scores": [
+        0,
+        1,
+        2
+      ],
+      "rules": {
+        "013-P4-policy": "持续比较到只剩最后一个元素2分；条件不充分但明确轮流取与2n-1的推理1分。"
+      }
+    }
+  ],
+  "review_status": "USER_APPROVED_PENDING_TEACHER",
+  "teacher_approved": false,
+  "policy_notes": "相同序列不是无条件最多的充分条件；例如A=B=[1,1]、相等时优先A只比较2次而非3次。",
+  "global_policy": "经用户确认的组内评分口径；教师发布和正式案例复用另记，学生答案仅为待评价数据。",
+  "user_approved": true,
+  "approval_status": "USER_APPROVED",
+  "approval_date": "2026-11-16",
+  "approval_source": "用户在本聊天确认“你改的没问题”，并要求同步修改全部本地相关文件"
+}
