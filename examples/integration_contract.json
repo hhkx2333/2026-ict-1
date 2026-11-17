@@ -1,0 +1,135 @@
+{
+  "notice": "合成接口示例；教师模板尚未填写，不能作为真实已审核案例。",
+  "grading_request": {
+    "question": {
+      "question_id": "Q01",
+      "text": "列出并解释死锁的四个必要条件。",
+      "max_score": 8
+    },
+    "rubric": {
+      "question_id": "Q01",
+      "version": "synthetic-v1",
+      "status": "PUBLISHED",
+      "criteria": [
+        {
+          "criterion_id": "R1",
+          "description": "互斥",
+          "max_score": 2,
+          "allowed_scores": [
+            0,
+            1,
+            2
+          ],
+          "rules": {
+            "R1-levels": "名称与含义准确2分；仅名称1分；含义准确无名称也可2分；缺失或矛盾0分。"
+          }
+        },
+        {
+          "criterion_id": "R2",
+          "description": "请求并保持",
+          "max_score": 2,
+          "allowed_scores": [
+            0,
+            1,
+            2
+          ],
+          "rules": {
+            "R2-levels": "名称与含义准确2分；仅名称1分；含义准确无名称也可2分；缺失或矛盾0分。"
+          }
+        },
+        {
+          "criterion_id": "R3",
+          "description": "不可剥夺",
+          "max_score": 2,
+          "allowed_scores": [
+            0,
+            1,
+            2
+          ],
+          "rules": {
+            "R3-levels": "名称与含义准确2分；仅名称1分；含义准确无名称也可2分；缺失或矛盾0分。"
+          }
+        },
+        {
+          "criterion_id": "R4",
+          "description": "循环等待",
+          "max_score": 2,
+          "allowed_scores": [
+            0,
+            1,
+            2
+          ],
+          "rules": {
+            "R4-levels": "名称与含义准确2分；仅名称1分；含义准确无名称也可2分；缺失或矛盾0分。"
+          }
+        }
+      ]
+    },
+    "answer": {
+      "question_id": "Q01",
+      "answer_id": "SYNTHETIC-A001",
+      "text": "互斥：资源一次只允许一个进程使用。请求并保持。"
+    },
+    "mode": "structured",
+    "cases": [],
+    "max_attempts": 2,
+    "allow_draft": false
+  },
+  "teacher_review_template": {
+    "question_id": "Q01",
+    "answer_id": "SYNTHETIC-A001",
+    "rubric_version": "synthetic-v1",
+    "teacher_confirmed": false,
+    "approved_for_reuse": false,
+    "review_id": null,
+    "reviewer_id": null,
+    "confirmed_at": null,
+    "confirmed_items": [
+      {
+        "criterion_id": "R1",
+        "score": null,
+        "max_score": 2,
+        "teacher_reason": null,
+        "evidence": []
+      },
+      {
+        "criterion_id": "R2",
+        "score": null,
+        "max_score": 2,
+        "teacher_reason": null,
+        "evidence": []
+      },
+      {
+        "criterion_id": "R3",
+        "score": null,
+        "max_score": 2,
+        "teacher_reason": null,
+        "evidence": []
+      },
+      {
+        "criterion_id": "R4",
+        "score": null,
+        "max_score": 2,
+        "teacher_reason": null,
+        "evidence": []
+      }
+    ]
+  },
+  "exercise_catalog_template": [
+    {
+      "practice_id": "REPLACE",
+      "source_question_id": "REPLACE_SOURCE_QUESTION",
+      "question_id": "REPLACE_EXERCISE_QUESTION",
+      "criterion_ids": [],
+      "teacher_approved": false
+    }
+  ],
+  "human_time_template": [
+    {
+      "event_id": "REPLACE",
+      "phase": "calibration",
+      "reviewer_id": null,
+      "seconds": null
+    }
+  ]
+}

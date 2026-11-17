@@ -1,0 +1,32 @@
+# Existing cloud resources only. RDS/DCS must be reachable over the private network.
+services:
+  migrate:
+    build: .
+    command: [python, -m, c_app.cli, migrate]
+    environment: &cloud
+      C_ENV: production
+      C_ALLOW_LIVE: ${C_ALLOW_LIVE:-false}
+      C_REQUIRE_WORKER: "true"
+      FORWARDED_ALLOW_IPS: ${FORWARDED_ALLOW_IPS:?Set the trusted reverse proxy source IP}
+      DATABASE_URL: ${DATABASE_URL:?Set an existing PostgreSQL/RDS URL with sslmode=verify-full}
+      REDIS_URL: ${REDIS_URL:-}
+      GRADING_ENDPOINT: ${GRADING_ENDPOINT:-}
+      GRADING_MODEL: ${GRADING_MODEL:-}
+      GRADING_API_KEY: ${GRADING_API_KEY:-}
+      GRADING_TIMEOUT: ${GRADING_TIMEOUT:-60}
+      GRADING_MAX_TOKENS: ${GRADING_MAX_TOKENS:-2048}
+      GRADING_ALIGN_QUOTES: ${GRADING_ALIGN_QUOTES:-true}
+  web:
+    build: .
+    environment: *cloud
+    ports: ["127.0.0.1:18065:18065"]
+    depends_on:
+      migrate: {condition: service_completed_successfully}
+    restart: unless-stopped
+  worker:
+    build: .
+    environment: *cloud
+    command: [python, -m, c_app.worker]
+    depends_on:
+      migrate: {condition: service_completed_successfully}
+    restart: unless-stopped

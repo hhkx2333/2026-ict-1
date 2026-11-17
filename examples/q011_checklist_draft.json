@@ -1,0 +1,180 @@
+{
+  "question_id": "011",
+  "version": "011-operation-context-draft-v5",
+  "status": "DRAFT",
+  "source_commit": "fa2866341b6c91d843c977a4ed90dcd8c3c4c5b3",
+  "approval_note": "同步组内批准的通用评分口径；整套机器检查项及替代方案映射仍为开发草案，未冒称教师发布。评分输入不包含个案编号或参考总分。",
+  "criteria": [
+    {
+      "criterion_id": "011-P1",
+      "description": "入队",
+      "max_score": 2,
+      "allowed_scores": [
+        0,
+        1,
+        2
+      ],
+      "rules": {
+        "011-P1-policy": "新元素压入输入栈S1；互换栈名但全程一致也接受。无实质或错误0分，方向正确但步骤不完整1分，完整正确2分。对正确替代实现按等效功能评价，不因不同于参考模板扣分；不能确定则交人工。 方向可辨但变量笔误、分支缺失或关键操作不完整给1分，不可静默修正后给2分。先检查完整入队操作及顺序不变量。"
+      },
+      "checks": [
+        {
+          "check_id": "P1-operation",
+          "max_score": 2,
+          "allowed_scores": [
+            0,
+            1,
+            2
+          ],
+          "description": "新元素进入输入栈且不破坏原队列顺序；明确完整2分，方向正确但操作不完整1分，错误或无实质0分。 可辨方向但变量笔误、分支缺失或操作不完整只给1分；不得认定完整正确。",
+          "requires_supported_operation_for_full": "enqueue"
+        }
+      ]
+    },
+    {
+      "criterion_id": "011-P2",
+      "description": "输出栈非空时出队",
+      "max_score": 2,
+      "allowed_scores": [
+        0,
+        1,
+        2
+      ],
+      "rules": {
+        "011-P2-policy": "标准方案：明确S2非空1分，直接弹出其栈顶1分。正确替代算法按等效功能给分；不强制所有方案都采用双持久栈。不确定实现或文字代码矛盾时转人工，不能根据正确概述忽略错误代码。 条件与操作独立计分，不因漏写非空条件重复扣掉已经正确描述的出栈操作分。此为开发澄清，仍待教师确认。"
+      },
+      "checks": [
+        {
+          "check_id": "P2-condition",
+          "max_score": 1,
+          "allowed_scores": [
+            0,
+            1
+          ],
+          "description": "明确输出栈有元素时的出队情形；等价替代方案按其实际不变量判断。"
+        },
+        {
+          "check_id": "P2-pop",
+          "max_score": 1,
+          "allowed_scores": [
+            0,
+            1
+          ],
+          "description": "独立评价是否明确从输出栈取队首：可以用出栈/弹出/输出等同义操作。若已明确从S2出栈，即使未写S2非空条件，本操作项仍给1分，条件项另判；错误的取队首操作不给分。"
+        }
+      ]
+    },
+    {
+      "criterion_id": "011-P3",
+      "description": "输出栈空时出队",
+      "max_score": 3,
+      "allowed_scores": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "rules": {
+        "011-P3-policy": "标准方案：S2空才倒栈1分；把S1全部逐个倒入S2给1分；再弹出S2栈顶1分。正确替代算法按等效功能评价，不要求摊还O(1)。必须核查原文，不替学生补全未明确的步骤；省略含义或代码分支不清楚时标记人工。 证据必须来自相应出队流程及其可到达分支；入队函数在输入栈满时才执行的倒栈不能借作出队搬移证据。替代方案按顶层equivalence_policy一致映射。"
+      },
+      "checks": [
+        {
+          "check_id": "P3-condition",
+          "max_score": 1,
+          "allowed_scores": [
+            0,
+            1
+          ],
+          "description": "出队时输出栈为空才转移输入栈，或提供等效正确替代流程；入队时输入栈满才搬移，不能单独替代本条件。",
+          "evidence_operation": "dequeue"
+        },
+        {
+          "check_id": "P3-transfer",
+          "max_score": 1,
+          "allowed_scores": [
+            0,
+            1
+          ],
+          "description": "在相应出队流程中将输入栈全部逐个倒到输出栈；必须有全部、逐个或循环等明确依据。入队函数的条件性倒栈不能借用，只说把数据放入另一栈不足以自动补出全部逐个搬移。正确替代方案按equivalence_policy的等效功能评价。",
+          "evidence_operation": "dequeue"
+        },
+        {
+          "check_id": "P3-pop",
+          "max_score": 1,
+          "allowed_scores": [
+            0,
+            1
+          ],
+          "description": "转移后实际取队首出队；若原文不确定是否含该步，列明歧义，不自动想象执行了。",
+          "evidence_operation": "dequeue"
+        }
+      ]
+    },
+    {
+      "criterion_id": "011-P4",
+      "description": "判空",
+      "max_score": 2,
+      "allowed_scores": [
+        0,
+        1,
+        2
+      ],
+      "rules": {
+        "011-P4-policy": "标准双持久栈方案需S1和S2同时为空；符合替代方案不变量的单栈判空也接受。明确正确2分，方向正确但含糊1分，无实质或错误0分；规则不足时转人工。"
+      },
+      "checks": [
+        {
+          "check_id": "P4-empty",
+          "max_score": 2,
+          "allowed_scores": [
+            0,
+            1,
+            2
+          ],
+          "description": "标准双持久栈两栈均空；合法替代算法按其不变量。明确正确2分，方向正确但含糊1分，无实质或错误0分。"
+        }
+      ]
+    },
+    {
+      "criterion_id": "011-P5",
+      "description": "FIFO依据",
+      "max_score": 1,
+      "allowed_scores": [
+        0,
+        1
+      ],
+      "rules": {
+        "011-P5-policy": "说明倒栈后先入元素成为队首，或给出有效操作示例；清楚的过程可隐含这一点。同义表达按含义判断，同一内容不重复计分。不强制较低复杂度；无法确定替代算法正确性时标记复核。 正确概念说明可独立得此1分，不据此补出代码缺失流程；若仅有含糊或不完整操作且无正确概念说明，不凭出现两个栈就认定FIFO。"
+      },
+      "checks": [
+        {
+          "check_id": "P5-fifo",
+          "max_score": 1,
+          "allowed_scores": [
+            0,
+            1
+          ],
+          "description": "正确解释倒栈反转与FIFO关系，或有明确正确的过程/示例支持顺序保持，得1分。可独立给正确概念解释分，但不能从概念补出缺失代码。不从含糊操作自动推断FIFO，不因只出现两栈和搬移就给分。"
+        }
+      ]
+    }
+  ],
+  "label_version": "2026-11-10-user-approved-v1",
+  "analysis_policy": "operation-context-v1",
+  "equivalence_policy": "先判断完整实现及操作间隙的不变量。正确替代方案不要求出现标准延迟倒栈分支：若全部数据在S1，S2仅用于出队时临时移开上方元素、弹出最早元素再还原，按等效出队功能映射P2的2分与P3的3分；若全部数据在S2，入队利用S1临时搬移后令新元素位于队尾、队首仍在S2顶，直接弹出S2为出队，亦按等效功能映射P2/P3。必须核实每次只移除一个队首、剩余元素顺序正确、下一次混合操作仍正确；完整正确才能给对应全部功能分。判空按持久保存队列的栈判断，临时栈操作结束为空，不要求检查两栈。未知或不完整替代方案不得自动套满分，保留明确局部得分并说明不确定性。",
+  "operation_bundles": {
+    "enqueue": [
+      "P1-operation"
+    ],
+    "dequeue": [
+      "P2-condition",
+      "P2-pop",
+      "P3-condition",
+      "P3-transfer",
+      "P3-pop"
+    ],
+    "empty": [
+      "P4-empty"
+    ]
+  }
+}

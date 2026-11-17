@@ -1,0 +1,56 @@
+name: ict-grading
+x-app: &app
+  build: .
+  environment: &env
+    C_ENV: development
+    C_ALLOW_LIVE: "false"
+    C_REQUIRE_WORKER: "true"
+    DATABASE_URL: postgresql+psycopg://grading:${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env}@postgres:5432/grading
+    REDIS_URL: redis://redis:6379/0
+  restart: unless-stopped
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: grading
+      POSTGRES_DB: grading
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env}
+    volumes: [postgres_data:/var/lib/postgresql/data]
+    healthcheck:
+      test: [CMD-SHELL, "pg_isready -U grading -d grading"]
+      interval: 3s
+      timeout: 3s
+      retries: 20
+    restart: unless-stopped
+  redis:
+    image: redis:7-alpine
+    healthcheck:
+      test: [CMD, redis-cli, ping]
+      interval: 3s
+      timeout: 3s
+      retries: 20
+    restart: unless-stopped
+  migrate:
+    <<: *app
+    restart: "no"
+    command: [python, -m, c_app.cli, migrate]
+    depends_on:
+      postgres: {condition: service_healthy}
+  web:
+    <<: *app
+    ports: ["127.0.0.1:18065:18065"]
+    depends_on:
+      migrate: {condition: service_completed_successfully}
+      redis: {condition: service_healthy}
+    healthcheck:
+      test: [CMD, python, -c, "import urllib.request; urllib.request.urlopen('http://127.0.0.1:18065/health/ready', timeout=3)"]
+      interval: 5s
+      timeout: 5s
+      retries: 15
+  worker:
+    <<: *app
+    command: [python, -m, c_app.worker]
+    depends_on:
+      migrate: {condition: service_completed_successfully}
+volumes:
+  postgres_data:

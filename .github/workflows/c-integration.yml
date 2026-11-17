@@ -1,0 +1,75 @@
+name: C application checks
+on:
+  push:
+    branches: [codex/c-teacher-workbench]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: c-checks-${{ github.event_name }}-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  sqlite:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python: ['3.12', '3.14']
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+      - run: pip install -r requirements.lock.txt
+      - run: python -m pytest tests -q
+      - run: python -m c_app.cli migrate
+      - run: python -m alembic check
+      - run: node --check c-prototype/app.js
+      - run: python -m c_app.verify_delivery
+      - name: Check A delivery without model calls
+        run: python -m c_app.verify_a
+  postgres-redis:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_USER: grading
+          POSTGRES_PASSWORD: synthetic-ci-password
+          POSTGRES_DB: grading_test
+        ports: ['5432:5432']
+        options: --health-cmd "pg_isready -U grading -d grading_test" --health-interval 3s --health-timeout 3s --health-retries 20
+      redis:
+        image: redis:7-alpine
+        ports: ['6379:6379']
+        options: --health-cmd "redis-cli ping" --health-interval 3s --health-timeout 3s --health-retries 20
+    env:
+      DATABASE_URL: postgresql+psycopg://grading:synthetic-ci-password@127.0.0.1:5432/grading_test
+      C_TEST_DATABASE_URL: postgresql+psycopg://grading:synthetic-ci-password@127.0.0.1:5432/grading_test
+      C_TEST_REDIS_URL: redis://127.0.0.1:6379/0
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install -r requirements.lock.txt
+      - run: python -m c_app.cli migrate
+      - run: python -m alembic check
+      - run: python -m pytest tests/test_c_application.py tests/test_c_redis.py -q
+  container:
+    runs-on: ubuntu-latest
+    env:
+      POSTGRES_PASSWORD: synthetic-compose-password
+    steps:
+      - uses: actions/checkout@v4
+      - run: docker compose config --quiet
+      - run: docker compose build
+      - run: docker compose up -d --wait web worker
+      - run: curl --fail http://127.0.0.1:18065/health/ready
+      - name: Verify container worker processes a synthetic batch
+        run: docker compose exec -T web python -m c_app.container_smoke
+      - if: always()
+        run: docker compose logs --no-color --tail=60
+      - if: always()
+        run: docker compose down

@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>校准阅卷 · 教师工作台</title>
+  <link rel="stylesheet" href="/assets/style.css"><script src="/assets/app.js" defer></script>
+</head>
+<body>
+  <header class="topbar"><a href="/" class="brand">校准阅卷<span>教师工作台</span></a><div id="identity"></div></header>
+  <main>
+    <div id="notice" role="status" aria-live="polite"></div>
+    <section id="login-panel" class="login panel">
+      <p class="eyebrow">从每一份答案开始</p><h1>让判分依据<br>清楚可查。</h1>
+      <p class="muted">查看评分建议、核对原文，再由教师确认结果。</p>
+      <form id="login-form"><label>用户名<input name="username" autocomplete="username" required></label><label>密码<input name="password" type="password" autocomplete="current-password" required></label><button class="primary">登录工作台</button></form>
+      <p class="small muted">首次使用请按项目说明创建管理员。系统不会自动生成真实教师身份或审核记录。</p>
+    </section>
+    <div id="workspace" hidden>
+      <section class="intro"><div><p class="eyebrow">先核对，再确认</p><h1 id="welcome">阅卷工作台</h1><p class="muted">模型提供建议，正式成绩由教师逐项确认。</p></div><button id="logout">退出登录</button></section>
+      <section id="teacher">
+        <div class="toolbar panel"><label>当前课程<select id="course"></select></label><label>题目<select id="question"></select></label><button id="refresh">刷新进度</button><button id="new-course">新建课程</button><button id="new-question">新建题目</button><button id="edit-question">编辑题目</button></div>
+        <nav id="tabs" aria-label="工作区"><button data-tab="answers" class="active">答案与复核</button><button data-tab="rules">规则与案例</button><button data-tab="batches">批量任务</button><button data-tab="practices">练习题库</button><button data-tab="members">成员与历史</button></nav>
+        <section id="tab-answers">
+          <div id="question-info" class="panel"></div>
+          <div class="panel"><div class="row"><h2>答案队列</h2><span id="answer-count" class="badge"></span></div>
+            <div class="controls"><label class="file-label">无分 JSONL<input type="file" id="answer-file" accept=".jsonl,.txt"></label><button id="import">导入答案</button><button id="select-all">选择本题全部</button><button id="export">导出教师确认成绩</button><button id="export-trial">导出试验记录</button></div>
+            <div class="controls"><label>规则版本<select id="batch-rubric"></select></label><label>评分方式<select id="grade-mode"><option value="structured">逐项结构化</option><option value="checklist">检查项评分</option></select></label><label>案例集合<select id="batch-cases"><option value="">不使用案例</option></select></label><label>服务<select id="provider"><option value="synthetic">合成回放（仅演示题）</option><option value="live">真实模型（须服务端启用）</option></select></label></div>
+            <div class="controls"><label class="check"><input type="checkbox" id="allow-draft">允许草案试验，强制复核</label><label class="check"><input type="checkbox" id="external-ack">确认向模型服务发送所选答案，可能产生费用</label><button id="run-batch" class="primary">为选中答案创建任务</button></div>
+          </div><div id="answers" class="queue"></div>
+        </section>
+        <section id="tab-rules" hidden><div class="panel"><h2>规则版本</h2><p class="muted">编辑保存为新草案；实际审核后另建发布版本，历史规则保留。</p><label>新草案版本名称<input id="rubric-version" placeholder="例如：011-试批-v2"></label><div id="rubric-fields"></div><div class="controls"><button id="add-criterion">添加得分点</button><button id="save-rubric" class="primary">保存新草案</button><button id="publish-rubric">审核并发布所选草案</button></div><div id="rule-list"></div></div><div class="panel"><h2>独立批准案例复用</h2><p class="muted">确认成绩不会自动批准案例。仅接受当前发布规则下的真实逐项复核记录。</p><form id="case-form"><label>复核记录编号（逗号分隔）<input name="review_ids" required></label><label>新的案例集合版本<input name="version" required></label><button>批准复用并固定集合</button></form><div id="case-list"></div></div><div class="panel"><h2>校准候选与修正规则草案</h2><div id="draft-list"></div></div></section>
+        <section id="tab-batches" hidden><div class="panel"><h2>任务进度</h2><p class="muted">“已处理”表示评分调用已结束，建议仍须复核。失败和中断分别显示，重试需明确操作。</p><div id="batch-list"></div></div></section>
+        <section id="tab-practices" hidden><div class="panel"><h2>审核练习题库</h2><p class="muted">练习由教师审核后参与推荐；没有题库时不生成替代题。</p><form id="practice-form"><label>练习编号<input name="practice_id" required></label><label>练习题号<input name="question_id" required></label><label>关联本题的得分点（可多选）<select name="criteria" id="practice-criteria" multiple required></select></label><label>练习题正文<textarea name="text" rows="4" required></textarea></label><label>参考答案<textarea name="reference_answer" rows="4" required></textarea></label><button>保存练习草案</button></form><div id="practice-list"></div></div></section>
+        <section id="tab-members" hidden><div class="panel"><h2>课程成员</h2><div id="member-list"></div><form id="member-form"><label>已有账号的用户编号<input name="user_id" type="number" min="1" required></label><button>加入本课程</button></form></div><div id="admin-panel" class="panel" hidden><h2>账号管理</h2><form id="user-form"><label>用户名<input name="username" required></label><label>初始密码（至少 12 字符）<input name="password" type="password" minlength="12" autocomplete="new-password" required></label><label>角色<select name="role"><option value="student">学生</option><option value="teacher">教师</option><option value="admin">管理员</option></select></label><button>创建账号</button></form><div id="user-list"></div></div><div class="panel"><h2>旧原型记录</h2><p class="muted">仅供查阅，身份未核验，不进入正式成绩和案例库。</p><div id="legacy-list"></div></div></section>
+      </section>
+      <section id="student" hidden><div class="panel"><h2>我的成绩与练习</h2><p class="muted">只显示教师已经发布给你的结果。</p><button id="student-refresh">刷新</button><div id="student-results"></div></div></section>
+    </div>
+  </main>
+  <dialog id="detail"><div class="row"><h2 id="detail-title">答案复核</h2><button id="close-detail" aria-label="关闭">关闭</button></div><div id="detail-body"></div></dialog>
+</body></html>

@@ -1,0 +1,11 @@
+.git
+.venv
+**/work
+**/__pycache__
+.pytest_cache
+.env
+secrets
+tests
+docs
+*.zip
+*.sqlite3
