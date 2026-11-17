@@ -1,0 +1,121 @@
+{
+  "provenance": "SYNTHETIC / NOT TEACHER REVIEWED / FIXTURE REPLAY ONLY",
+  "question": {
+    "question_id": "Q01",
+    "text": "列出并解释死锁的四个必要条件。",
+    "max_score": 8
+  },
+  "rubric": {
+    "question_id": "Q01",
+    "version": "synthetic-v1",
+    "status": "PUBLISHED",
+    "criteria": [
+      {
+        "criterion_id": "R1",
+        "description": "互斥",
+        "max_score": 2,
+        "allowed_scores": [
+          0,
+          1,
+          2
+        ],
+        "rules": {
+          "R1-levels": "名称与含义准确2分；仅名称1分；含义准确无名称也可2分；缺失或矛盾0分。"
+        }
+      },
+      {
+        "criterion_id": "R2",
+        "description": "请求并保持",
+        "max_score": 2,
+        "allowed_scores": [
+          0,
+          1,
+          2
+        ],
+        "rules": {
+          "R2-levels": "名称与含义准确2分；仅名称1分；含义准确无名称也可2分；缺失或矛盾0分。"
+        }
+      },
+      {
+        "criterion_id": "R3",
+        "description": "不可剥夺",
+        "max_score": 2,
+        "allowed_scores": [
+          0,
+          1,
+          2
+        ],
+        "rules": {
+          "R3-levels": "名称与含义准确2分；仅名称1分；含义准确无名称也可2分；缺失或矛盾0分。"
+        }
+      },
+      {
+        "criterion_id": "R4",
+        "description": "循环等待",
+        "max_score": 2,
+        "allowed_scores": [
+          0,
+          1,
+          2
+        ],
+        "rules": {
+          "R4-levels": "名称与含义准确2分；仅名称1分；含义准确无名称也可2分；缺失或矛盾0分。"
+        }
+      }
+    ]
+  },
+  "answer": {
+    "question_id": "Q01",
+    "answer_id": "SYNTHETIC-A001",
+    "text": "互斥：资源一次只允许一个进程使用。请求并保持。"
+  },
+  "model_output": {
+    "items": [
+      {
+        "criterion_id": "R1",
+        "suggested_score": 2,
+        "evidence": [
+          {
+            "quote": "互斥：资源一次只允许一个进程使用。",
+            "start": 0,
+            "end": 17
+          }
+        ],
+        "rule_id": "R1-levels",
+        "reason": "模拟：完整解释",
+        "flags": []
+      },
+      {
+        "criterion_id": "R2",
+        "suggested_score": 1,
+        "evidence": [
+          {
+            "quote": "请求并保持",
+            "start": 17,
+            "end": 22
+          }
+        ],
+        "rule_id": "R2-levels",
+        "reason": "模拟：仅名称",
+        "flags": []
+      },
+      {
+        "criterion_id": "R3",
+        "suggested_score": 0,
+        "evidence": [],
+        "rule_id": "R3-levels",
+        "reason": "模拟：未发现相关表述",
+        "flags": []
+      },
+      {
+        "criterion_id": "R4",
+        "suggested_score": 0,
+        "evidence": [],
+        "rule_id": "R4-levels",
+        "reason": "模拟：未发现相关表述",
+        "flags": []
+      }
+    ],
+    "review_reasons": []
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "question_id": "011",
+  "version": "011-five-point-draft-v1",
+  "status": "DRAFT",
+  "source_commit": "82c790ec9d6ad8ae69d784b8919ff523b7fcfe42",
+  "approval_note": "依据同学的五得分点建议转成程序格式，尚未获得教师对整套细则的确认；仅开发实验。",
+  "criteria": [
+    {"criterion_id":"011-P1","description":"入队","max_score":2,"allowed_scores":[0,1,2],"rules":{"011-P1-policy":"新元素压入输入栈S1；互换栈名但全程一致也接受。无实质或错误0分，方向正确但步骤不完整1分，完整正确2分。对正确替代实现按等效功能评价，不因不同于参考模板扣分；不能确定则交人工。"}},
+    {"criterion_id":"011-P2","description":"输出栈非空时出队","max_score":2,"allowed_scores":[0,1,2],"rules":{"011-P2-policy":"标准方案：明确S2非空1分，直接弹出其栈顶1分。正确替代算法按等效功能给分；不强制所有方案都采用双持久栈。不确定实现或文字代码矛盾时转人工，不能根据正确概述忽略错误代码。"}},
+    {"criterion_id":"011-P3","description":"输出栈空时出队","max_score":3,"allowed_scores":[0,1,2,3],"rules":{"011-P3-policy":"标准方案：S2空才倒栈1分；把S1全部逐个倒入S2给1分；再弹出S2栈顶1分。正确替代算法按等效功能评价，不要求摊还O(1)。必须核查原文，不替学生补全未明确的步骤；省略含义或代码分支不清楚时标记人工。"}},
+    {"criterion_id":"011-P4","description":"判空","max_score":2,"allowed_scores":[0,1,2],"rules":{"011-P4-policy":"标准双持久栈方案需S1和S2同时为空；符合替代方案不变量的单栈判空也接受。明确正确2分，方向正确但含糊1分，无实质或错误0分；规则不足时转人工。"}},
+    {"criterion_id":"011-P5","description":"FIFO依据","max_score":1,"allowed_scores":[0,1],"rules":{"011-P5-policy":"说明倒栈后先入元素成为队首，或给出有效操作示例；清楚的过程可隐含这一点。同义表达按含义判断，同一内容不重复计分。不强制较低复杂度；无法确定替代算法正确性时标记复核。"}}
+  ]
+}
