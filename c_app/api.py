@@ -538,7 +538,9 @@ def create_app(engine=None):
         for b in db.scalars(
             select(Batch).where(Batch.course_id == course_id).order_by(Batch.id.desc())
         ):
-            tasks = list(db.scalars(select(Task).where(Task.batch_id == b.id)))
+            tasks = list(
+                db.scalars(select(Task).where(Task.batch_id == b.id).order_by(Task.id))
+            )
             counts = {
                 s: sum(t.status == s for t in tasks)
                 for s in (

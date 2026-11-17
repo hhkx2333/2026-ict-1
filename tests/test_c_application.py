@@ -197,19 +197,28 @@ def test_batch_idempotency_and_failure_states(setup):
         == 409
     )
     drain(factory)
-    tasks = [c.get(f"/api/v1/tasks/{pk}").json() for pk in task_ids(c, ids)]
-    assert [t["status"] for t in tasks] == ["COMPLETED", "COMPLETED", "FAILED"]
-    assert tasks[0]["result"]["status"] == "REVIEW_REQUIRED"
-    assert tasks[1]["result"]["suggested_total"] is None
-    assert tasks[2]["result"]["suggested_total"] is None
+    task_numbers = task_ids(c, ids)
+    assert task_numbers == sorted(task_numbers)
+    tasks = {
+        t["request"]["answer"]["answer_id"]: t
+        for t in [c.get(f"/api/v1/tasks/{pk}").json() for pk in task_numbers]
+    }
+    normal = tasks["SYNTHETIC-A001"]
+    empty = tasks["SYNTHETIC-EMPTY"]
+    failed = tasks["SYNTHETIC-FAIL"]
+    assert normal["status"] == empty["status"] == "COMPLETED"
+    assert failed["status"] == "FAILED"
+    assert normal["result"]["status"] == "REVIEW_REQUIRED"
+    assert empty["result"]["suggested_total"] is None
+    assert failed["result"]["suggested_total"] is None
     assert (
         c.post(
-            f"/api/v1/tasks/{tasks[2]['id']}/reviews", json=confirmation(tasks[0])
+            f"/api/v1/tasks/{failed['id']}/reviews", json=confirmation(normal)
         ).status_code
         == 400
     )
-    assert c.post(f"/api/v1/tasks/{tasks[2]['id']}/retry", json={}).status_code == 201
-    assert c.post(f"/api/v1/tasks/{tasks[2]['id']}/retry", json={}).status_code == 409
+    assert c.post(f"/api/v1/tasks/{failed['id']}/retry", json={}).status_code == 201
+    assert c.post(f"/api/v1/tasks/{failed['id']}/retry", json={}).status_code == 409
 
 
 def test_draft_confirmation_is_trial_and_never_official(setup):
